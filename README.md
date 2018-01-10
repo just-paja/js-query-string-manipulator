@@ -8,7 +8,7 @@ Effortlessly manipulate query string parameters into your desired URL. You pass 
 
 QSM is written for ES modules
 
-```
+```javascript
 npm install query-string-manipulator
 ```
 
@@ -16,7 +16,7 @@ npm install query-string-manipulator
 
 Lets assume that you already have it imported
 
-```
+```javascript
 import qsm from 'query-string-manipulator';
 ```
 
@@ -24,7 +24,7 @@ import qsm from 'query-string-manipulator';
 
 Lets say that you want to add page number to a search result.
 
-```
+```javascript
 qsm('https://www.google.cz/search?q=hello+world', {
   set: {
     num: 20,
@@ -35,7 +35,7 @@ qsm('https://www.google.cz/search?q=hello+world', {
 
 It also works if the page number is already set
 
-```
+```javascript
 qsm('https://www.google.cz/search?q=hello+world&num=20', {
   set: {
     num: 40,
@@ -48,7 +48,7 @@ qsm('https://www.google.cz/search?q=hello+world&num=20', {
 
 Say that you now want to go back to first page
 
-```
+```javascript
 qsm('https://www.google.cz/search?q=hello+world&num=20', {
   remove: ['num']
 });
@@ -56,7 +56,7 @@ qsm('https://www.google.cz/search?q=hello+world&num=20', {
 ```
 
 Or go to the empty search page
-```
+```javascript
 qsm('https://www.google.cz/search?q=hello+world&num=20', {
   remove: ['q', 'num']
 });
@@ -66,7 +66,7 @@ qsm('https://www.google.cz/search?q=hello+world&num=20', {
 ### Toggle parameters
 
 Say that you have a button on your page that enables filter and disables it when you click it again.
-```
+```javascript
 qsm('https://www.google.cz/search?q=hello+world&num=20', {
   toggle: {
     tbm: 'isch',
@@ -85,7 +85,7 @@ qsm('https://www.google.cz/search?q=hello+world&num=20&tbm=isch', {
 
 ### Constants
 
-```
+```javascript
 import {
   URL_REMOVE, // Used for remove
   URL_SET, // Used for set
