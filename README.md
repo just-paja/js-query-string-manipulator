@@ -1,5 +1,7 @@
 # Query String Manipulator
 
+[![CircleCI](https://circleci.com/gh/BerryCloud/js-query-string-manipulator.svg?style=shield)](https://circleci.com/gh/BerryCloud/js-query-string-manipulator)
+
 Effortlessly manipulate query string parameters into your desired URL. You pass url and a set of actions to be done to QSM and you get you URL string back.
 
 ## Install
