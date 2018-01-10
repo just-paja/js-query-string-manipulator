@@ -1,0 +1,48 @@
+{
+  "name": "query-string-manipulator",
+  "version": "1.0.0",
+  "description": "Manipulate query strings without effort",
+  "main": "dist/qsm.js",
+  "scripts": {
+    "prepublish": "npm test && npm run build",
+    "build": "npm run build:regular && npm run build:minified",
+    "build:regular": "babel lib -d dist",
+    "build:minified": "babel --minified lib/qsm.js -o dist/qsm.minified.js",
+    "test": "mocha --require babel-core/register",
+    "test:coverage": "babel-node node_modules/babel-istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha --report clover --report lcov --report html -- --recursive --require ./lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BerryCloud/js-query-string-manipulator.git"
+  },
+  "keywords": [
+    "query",
+    "url",
+    "param",
+    "parameter",
+    "modify",
+    "manipulate",
+    "set"
+  ],
+  "author": "Pavel Žák <pavel@zak.global>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BerryCloud/js-query-string-manipulator/issues"
+  },
+  "homepage": "https://github.com/BerryCloud/js-query-string-manipulator#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-istanbul": "^0.12.2",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^4.1.2",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-mocha": "^4.11.0",
+    "eslint-plugin-react": "^7.5.1",
+    "mocha": "^4.1.0"
+  },
+  "dependencies": {}
+}
