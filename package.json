@@ -30,6 +30,11 @@
   "bugs": {
     "url": "https://github.com/BerryCloud/js-query-string-manipulator/issues"
   },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "homepage": "https://github.com/BerryCloud/js-query-string-manipulator#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
