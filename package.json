@@ -5,6 +5,7 @@
   "main": "dist/qsm.js",
   "scripts": {
     "prepublish": "npm test && npm run build",
+    "pretest": "eslint lib",
     "build": "npm run build:regular && npm run build:minified",
     "build:regular": "babel lib -d dist",
     "build:minified": "babel --minified lib/qsm.js | uglifyjs --mangle --compress -o dist/qsm.minified.js",
