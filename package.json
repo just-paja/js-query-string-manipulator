@@ -8,8 +8,9 @@
     "build": "npm run build:regular && npm run build:minified",
     "build:regular": "babel lib -d dist",
     "build:minified": "babel --minified lib/qsm.js -o dist/qsm.minified.js",
-    "test": "mocha --require babel-core/register",
-    "test:coverage": "babel-node node_modules/babel-istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha --report clover --report lcov --report html -- --recursive --require ./lib"
+    "test": "npm run test:coverage",
+    "test:nocov": "mocha --require babel-core/register",
+    "test:coverage": "babel-node node_modules/babel-istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha --report clover --report lcov --report html -- --recursive --require ./lib/qsm.js"
   },
   "repository": {
     "type": "git",
