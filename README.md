@@ -85,10 +85,105 @@ qsm('https://www.google.cz/search?q=hello+world&num=20&tbm=isch', {
 
 ### Constants
 
+If you like "symbols", you can go like this:
+
 ```javascript
-import {
+import qsm, {
   URL_REMOVE, // Used for remove
   URL_SET, // Used for set
   URL_TOGGLE, // Used for toggle
 } from 'query-string-manipulator';
+
+qsm('http://example.com/', {
+  [URL_REMOVE]: ['test'],
+  [URL_TOGGLE]: [
+    {
+      key: 'foo',
+      value: 'bar',
+    },
+  ],
+  [URL_SET]: [
+    {
+      key: 'xxx',
+      value: '123',
+    },
+  ]
+})
+```
+
+### Support methods
+
+But wait, there is more!
+
+#### Getting URL params
+
+Method `getUrlParams` returns list of all parameters in form of array of objects. It cannot be returned in form of key-pair values because there can be multiple same name query params.
+
+```javascript
+getUrlParams('https://example.com/foo?select=users&getId=10')
+
+/* returns
+[
+  {
+    key: 'select',
+    value: 'users'
+  },
+  {
+    key: 'getId',
+    value: '10',
+  }
+]
+*/
+```
+
+#### Resolve URL params
+
+Method `resolveUrlParams` returns parameters after changed by user specified actions.
+
+```javascript
+const urlParams = [
+  {
+    key: 'select',
+    value: 'users'
+  },
+  {
+    key: 'getId',
+    value: '10'
+  }
+];
+const paramActions = {
+  remove: ['getId'],
+  set: {
+    select: 'userGroups',
+  },
+};
+resolveUrlParams(urlParams, paramActions)
+
+/* returns
+[
+  {
+    key: 'select',
+    value: 'userGroups'
+  }
+]
+*/
+```
+
+#### Putting params together
+
+Method `constructUrlParams` returns query string part of the URL from parameters.
+
+```javascript
+constructUrlParams([
+  {
+    key: 'select',
+    value: 'users'
+  },
+  {
+    key: 'getId',
+    value: '10'
+  }
+])
+
+// returns "select=users&getId=10"
 ```
