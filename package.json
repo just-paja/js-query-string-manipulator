@@ -7,7 +7,7 @@
     "prepublish": "npm test && npm run build",
     "build": "npm run build:regular && npm run build:minified",
     "build:regular": "babel lib -d dist",
-    "build:minified": "babel --minified lib/qsm.js -o dist/qsm.minified.js",
+    "build:minified": "babel --minified lib/qsm.js | uglifyjs --mangle --compress -o dist/qsm.minified.js",
     "test": "npm run test:coverage",
     "test:nocov": "mocha --require babel-core/register",
     "test:coverage": "babel-node node_modules/babel-istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha --report clover --report lcov --report html -- --recursive --require ./lib/qsm.js"
@@ -43,7 +43,9 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "^7.5.1",
-    "mocha": "^4.1.0"
+    "mocha": "^4.1.0",
+    "uglify": "^0.1.5",
+    "uglify-js": "^3.3.5"
   },
   "dependencies": {}
 }
