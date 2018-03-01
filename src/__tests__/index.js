@@ -5,7 +5,7 @@ import qsm, {
   constructUrlParams,
   getUrlParams,
   resolveUrlParams,
-} from '../qsm';
+} from '..';
 
 
 describe('qsm', () => {
