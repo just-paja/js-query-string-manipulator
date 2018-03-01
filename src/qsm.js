@@ -71,6 +71,9 @@ export const constructUrlParams = params =>
   params.map(param => `${encodeURI(param.key)}=${encodeURI(param.value)}`).join('&');
 
 export default (url, paramActions = {}) => {
+  if (!url || typeof url !== 'string') {
+    return null;
+  }
   const params = constructUrlParams(resolveUrlParams(getUrlParams(url), paramActions));
   const queryStart = findQueryStart(url);
   const strippedUrl = queryStart === -1 ? url : url.substr(0, queryStart);
