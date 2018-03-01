@@ -1,13 +1,8 @@
 {
-  "extends": "airbnb",
-  "globals": {
-    "after": true,
-    "afterEach": true,
-    "before": true,
-    "beforeEach": true,
-    "describe": true,
-    "it": true
-  },
+  "plugins": [
+    "filenames",
+    "jest"
+  ],
   "parserOptions": {
     "ecmaVersion": 7,
     "ecmaFeatures": {
@@ -15,7 +10,28 @@
       "jsx": true
     }
   },
-  "plugins": [
-    "mocha"
-  ]
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest/globals": true
+  },
+  "rules": {
+    "function-paren-newline": 0,
+    "comma-dangle": [2, {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "ignore"
+    }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true,
+        "optionalDependencies": false,
+        "peerDependencies": true
+      }
+    ]
+  }
 }
