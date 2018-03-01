@@ -1,6 +1,6 @@
 {
   "name": "query-string-manipulator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Manipulate query strings without effort",
   "main": "lib/index.js",
   "scripts": {
