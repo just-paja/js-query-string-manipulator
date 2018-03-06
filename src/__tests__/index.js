@@ -91,6 +91,56 @@ describe('qsm', () => {
       },
     })).toBe('https://www.google.cz/search?q=hello+world&num=20');
   });
+
+  it('works for complex example with symbols', () => {
+    expect(qsm('http://example.com/', {
+      [URL_REMOVE]: ['test'],
+      [URL_TOGGLE]: {
+        foo: 'bar',
+      },
+      [URL_SET]: {
+        xxx: '123',
+      },
+    })).toBe('http://example.com/?xxx=123&foo=bar');
+  });
+
+  it('works when removing param with symbols', () => {
+    expect(qsm('http://example.com/?foo=bar&xxx=123&test=toBeRemoved', {
+      [URL_REMOVE]: ['test'],
+    })).toBe('http://example.com/?foo=bar&xxx=123');
+  });
+
+  it('works when toggle-adding param with symbols', () => {
+    expect(qsm('http://example.com/?foo=bar&xxx=123', {
+      [URL_TOGGLE]: {
+        test: 'toBeAdded',
+      },
+    })).toBe('http://example.com/?foo=bar&xxx=123&test=toBeAdded');
+  });
+
+  it('works when toggle-changing-value param with symbols', () => {
+    expect(qsm('http://example.com/?foo=bar&xxx=123&test=toBeChanged', {
+      [URL_TOGGLE]: {
+        test: 'toBeAdded',
+      },
+    })).toBe('http://example.com/?foo=bar&xxx=123&test=toBeAdded');
+  });
+
+  it('works when toggle-removing param with symbols', () => {
+    expect(qsm('http://example.com/?foo=bar&xxx=123&test=toBeRemoved', {
+      [URL_TOGGLE]: {
+        test: 'toBeRemoved',
+      },
+    })).toBe('http://example.com/?foo=bar&xxx=123');
+  });
+
+  it('works when setting param with symbols', () => {
+    expect(qsm('http://example.com/?foo=bar&xxx=123', {
+      [URL_TOGGLE]: {
+        test: 'toBeAdded',
+      },
+    })).toBe('http://example.com/?foo=bar&xxx=123&test=toBeAdded');
+  });
 });
 
 describe('lib', () => {

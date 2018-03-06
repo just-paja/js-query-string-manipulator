@@ -96,18 +96,12 @@ import qsm, {
 
 qsm('http://example.com/', {
   [URL_REMOVE]: ['test'],
-  [URL_TOGGLE]: [
-    {
-      key: 'foo',
-      value: 'bar',
-    },
-  ],
-  [URL_SET]: [
-    {
-      key: 'xxx',
-      value: '123',
-    },
-  ]
+  [URL_TOGGLE]: {
+    foo: 'bar',
+  },
+  [URL_SET]: {
+    xxx: '123',
+  },
 })
 ```
 
