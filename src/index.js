@@ -41,8 +41,9 @@ const toggleParams = (urlParams, urlParamsNext, params) => {
 };
 
 export const getUrlParams = (url) => {
-  const queryStart = findQueryStart(url);
-  const urlParamPairs = queryStart === -1 ? [] : url.substr(queryStart + 1).split('&');
+  const decodedUrl = decodeURI(url);
+  const queryStart = findQueryStart(decodedUrl);
+  const urlParamPairs = queryStart === -1 ? [] : decodedUrl.substr(queryStart + 1).split('&');
   return urlParamPairs.filter(param => param).map((paramPair) => {
     const [key, value] = paramPair.split('=');
     return { key, value };

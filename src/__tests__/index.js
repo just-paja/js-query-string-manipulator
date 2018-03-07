@@ -141,6 +141,14 @@ describe('qsm', () => {
       },
     })).toBe('http://example.com/?foo=bar&xxx=123&test=toBeAdded');
   });
+
+  it('works with urldecoded address', () => {
+    expect(qsm('https://example.org?f%5BnumPages%5D%5Bv%5D%5Bmin%5D=1', {
+      [URL_SET]: {
+        'f[numPages][v][min]': 2,
+      },
+    })).toBe('https://example.org?f%5BnumPages%5D%5Bv%5D%5Bmin%5D=2');
+  });
 });
 
 describe('lib', () => {
@@ -182,6 +190,15 @@ describe('getUrlParams', () => {
     expect(getUrlParams('/local?foo=bar&bar=123')).toEqual([
       { key: 'foo', value: 'bar' },
       { key: 'bar', value: '123' },
+    ]);
+  });
+
+  it('returns params of urldecoded address', () => {
+    expect(getUrlParams('https://example.org?f%5BnumPages%5D%5Bv%5D%5Bmin%5D=1')).toEqual([
+      {
+        key: 'f[numPages][v][min]',
+        value: '1',
+      },
     ]);
   });
 });
