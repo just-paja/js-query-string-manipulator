@@ -7,10 +7,13 @@ const filterByParamName = paramName => param => param.key === paramName;
 const findParamIndex = (params, paramName) => params.findIndex(filterByParamName(paramName));
 
 const removeParam = (params, paramName) => {
-  const paramIndex = params.findIndex(filterByParamName(paramName));
-  if (paramIndex !== -1) {
-    params.splice(paramIndex, 1);
-  }
+  let paramIndex;
+  do {
+    paramIndex = params.findIndex(filterByParamName(paramName));
+    if (paramIndex !== -1) {
+      params.splice(paramIndex, 1);
+    }
+  } while (paramIndex !== -1);
 };
 
 const findQueryStart = url => url.indexOf('?');
@@ -18,10 +21,18 @@ const findQueryStart = url => url.indexOf('?');
 const removeParams = (urlParams, params) =>
   params.forEach(paramName => removeParam(urlParams, paramName));
 
-const mapInputToParams = params => Object.keys(params).map(key => ({
+const mapInputKeyToParam = (params, key) => ({
   key,
   value: params[key],
-}));
+});
+
+const mapInputToParams = params => Object.keys(params).reduce((aggr, key) => {
+  if (params[key] instanceof Array) {
+    return aggr.concat(params[key].map(value => ({ key, value })));
+  }
+
+  return [...aggr, mapInputKeyToParam(params, key)];
+}, []);
 
 const toggleParams = (urlParams, urlParamsNext, params) => {
   Object.keys(params).forEach((key) => {

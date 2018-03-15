@@ -149,6 +149,44 @@ describe('qsm', () => {
       },
     })).toBe('https://example.org?f%5BnumPages%5D%5Bv%5D%5Bmin%5D=2');
   });
+
+  it('works with example for array paramters', () => {
+    expect(qsm('https://www.google.cz/search?q=hello+world&num=20', {
+      [URL_SET]: {
+        num: [20, 40, 60],
+      },
+    })).toBe('https://www.google.cz/search?q=hello+world&num=20&num=40&num=60');
+  });
+
+  it('works with ordered parameter arrays', () => {
+    expect(qsm('https://www.google.cz/search?q=hello+world&num=40', {
+      [URL_SET]: {
+        num: [20, 40, 60],
+      },
+    })).toBe('https://www.google.cz/search?q=hello+world&num=20&num=40&num=60');
+  });
+
+  it('sets params from array when URL contains more values than input', () => {
+    expect(qsm('https://www.google.cz/search?q=hello+world&num=x3&num=x4', {
+      [URL_SET]: {
+        num: [12],
+      },
+    })).toBe('https://www.google.cz/search?q=hello+world&num=12');
+  });
+
+  it('sets params from array when URL contains less values than input', () => {
+    expect(qsm('https://www.google.cz/search?q=hello+world&num=x3&num=x4', {
+      [URL_SET]: {
+        num: [12, 13, 14, 15],
+      },
+    })).toBe('https://www.google.cz/search?q=hello+world&num=12&num=13&num=14&num=15');
+  });
+
+  it('removes all ocurrences of params URL', () => {
+    expect(qsm('https://www.google.cz/search?num=12&q=hello+world&num=x3&num=x4', {
+      [URL_REMOVE]: ['num'],
+    })).toBe('https://www.google.cz/search?q=hello+world');
+  });
 });
 
 describe('lib', () => {
@@ -190,6 +228,14 @@ describe('getUrlParams', () => {
     expect(getUrlParams('/local?foo=bar&bar=123')).toEqual([
       { key: 'foo', value: 'bar' },
       { key: 'bar', value: '123' },
+    ]);
+  });
+
+  it('returns URL params as array with repeated params', () => {
+    expect(getUrlParams('/local?foo=bar&foo=123&foo=xxx')).toEqual([
+      { key: 'foo', value: 'bar' },
+      { key: 'foo', value: '123' },
+      { key: 'foo', value: 'xxx' },
     ]);
   });
 
@@ -243,6 +289,22 @@ describe('resolveUrlParams', () => {
     expect(resolveUrlParams(urlParams, paramActions)).toEqual([
       { key: 'foo', value: 'bar' },
       { key: 'bar', value: '456' },
+    ]);
+  });
+
+  it('returns params where set replaces previous array value', () => {
+    const urlParams = [
+      { key: 'foo', value: 'bar' },
+      { key: 'foo', value: '123' },
+    ];
+    const paramActions = {
+      set: {
+        foo: ['xxx', '456'],
+      },
+    };
+    expect(resolveUrlParams(urlParams, paramActions)).toEqual([
+      { key: 'foo', value: 'xxx' },
+      { key: 'foo', value: '456' },
     ]);
   });
 

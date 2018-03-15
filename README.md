@@ -44,6 +44,17 @@ qsm('https://www.google.cz/search?q=hello+world&num=20', {
 // https://www.google.cz/search?q=hello+world&num=40
 ```
 
+It also works when passing a parameter as an array.
+
+```javascript
+qsm('https://www.google.cz/search?q=hello+world&num=20', {
+  set: {
+    num: [20, 40, 60],
+  }
+});
+// https://www.google.cz/search?q=hello+world&num=20&num=40&num=60
+```
+
 ### Remove parameters
 
 Say that you now want to go back to first page
