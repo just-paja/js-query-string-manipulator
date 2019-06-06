@@ -80,7 +80,11 @@ export const resolveUrlParams = (prevParams, paramActions) => {
 }
 
 export const constructUrlParams = params =>
-  params.map(param => `${encodeURI(param.key)}=${encodeURI(param.value)}`).join('&')
+  params.filter(param => param.value !== undefined).map((param) => {
+    return param.value === null
+      ? `${encodeURI(param.key)}`
+      : `${encodeURI(param.key)}=${encodeURI(param.value)}`
+  }).join('&')
 
 export default (url, paramActions = {}) => {
   if (!url || typeof url !== 'string') {

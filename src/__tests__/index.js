@@ -47,6 +47,30 @@ describe('qsm', () => {
     })).toBe('https://example.com/foo?bar=XXXXX&page=10')
   })
 
+  it('returns URL without undefined param', () => {
+    expect(qsm('https://example.com/foo?bar=xx', {
+      set: {
+        bar: undefined
+      }
+    })).toBe('https://example.com/foo')
+  })
+
+  it('returns URL with key and without value or equals sign for null params', () => {
+    expect(qsm('https://example.com/foo?bar=xx', {
+      set: {
+        bar: null
+      }
+    })).toBe('https://example.com/foo?bar')
+  })
+
+  it('returns URL with key and equals sign and without value for empty string params', () => {
+    expect(qsm('https://example.com/foo?bar=xx', {
+      set: {
+        bar: ''
+      }
+    })).toBe('https://example.com/foo?bar=')
+  })
+
   it('works for example with adding page number', () => {
     expect(qsm('https://www.google.cz/search?q=hello+world', {
       set: {
