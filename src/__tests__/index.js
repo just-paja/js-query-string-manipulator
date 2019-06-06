@@ -48,11 +48,19 @@ describe('qsm', () => {
   })
 
   it('returns URL without undefined param', () => {
-    expect(qsm('https://example.com/foo?bar=xx', {
+    expect(qsm('https://example.com/foo', {
       set: {
         bar: undefined
       }
     })).toBe('https://example.com/foo')
+  })
+
+  it('returns URL keeps old param when new param is undefined', () => {
+    expect(qsm('https://example.com/foo?bar=xx&baz=1', {
+      set: {
+        bar: undefined
+      }
+    })).toBe('https://example.com/foo?bar=xx&baz=1')
   })
 
   it('returns URL with key and without value or equals sign for null params', () => {

@@ -35,13 +35,15 @@ function mapInputKeyToParam (params, key) {
 }
 
 function mapInputToParams (params) {
-  return Object.keys(params).reduce((aggr, key) => {
-    if (params[key] instanceof Array) {
-      return aggr.concat(params[key].map(value => ({ key, value })))
-    }
+  return Object.keys(params)
+    .filter(key => params[key] !== undefined)
+    .reduce((aggr, key) => {
+      if (params[key] instanceof Array) {
+        return aggr.concat(params[key].map(value => ({ key, value })))
+      }
 
-    return [...aggr, mapInputKeyToParam(params, key)]
-  }, [])
+      return [...aggr, mapInputKeyToParam(params, key)]
+    }, [])
 }
 
 function toggleParams (urlParams, urlParamsNext, params) {
@@ -90,7 +92,7 @@ export function resolveUrlParams (prevParams, paramActions) {
 }
 
 export function constructUrlParams (params) {
-  return params.filter(param => param.value !== undefined).map((param) => {
+  return params.map((param) => {
     return param.value === null
       ? `${encodeURI(param.key)}`
       : `${encodeURI(param.key)}=${encodeURI(param.value)}`
