@@ -2,11 +2,17 @@ export const URL_REMOVE = 'remove'
 export const URL_SET = 'set'
 export const URL_TOGGLE = 'toggle'
 
-const filterByParamName = paramName => param => param.key === paramName
+function filterByParamName (paramName) {
+  return function (param) {
+    return param.key === paramName
+  }
+}
 
-const findParamIndex = (params, paramName) => params.findIndex(filterByParamName(paramName))
+function findParamIndex (params, paramName) {
+  return params.findIndex(filterByParamName(paramName))
+}
 
-const removeParam = (params, paramName) => {
+function removeParam (params, paramName) {
   let paramIndex
   do {
     paramIndex = params.findIndex(filterByParamName(paramName))
@@ -16,25 +22,29 @@ const removeParam = (params, paramName) => {
   } while (paramIndex !== -1)
 }
 
-const findQueryStart = url => url.indexOf('?')
+function findQueryStart (url) {
+  return url.indexOf('?')
+}
 
-const removeParams = (urlParams, params) =>
-  params.forEach(paramName => removeParam(urlParams, paramName))
+function removeParams (urlParams, params) {
+  return params.forEach(paramName => removeParam(urlParams, paramName))
+}
 
-const mapInputKeyToParam = (params, key) => ({
-  key,
-  value: params[key]
-})
+function mapInputKeyToParam (params, key) {
+  return { key, value: params[key] }
+}
 
-const mapInputToParams = params => Object.keys(params).reduce((aggr, key) => {
-  if (params[key] instanceof Array) {
-    return aggr.concat(params[key].map(value => ({ key, value })))
-  }
+function mapInputToParams (params) {
+  return Object.keys(params).reduce((aggr, key) => {
+    if (params[key] instanceof Array) {
+      return aggr.concat(params[key].map(value => ({ key, value })))
+    }
 
-  return [...aggr, mapInputKeyToParam(params, key)]
-}, [])
+    return [...aggr, mapInputKeyToParam(params, key)]
+  }, [])
+}
 
-const toggleParams = (urlParams, urlParamsNext, params) => {
+function toggleParams (urlParams, urlParamsNext, params) {
   Object.keys(params).forEach((key) => {
     const paramIndex = findParamIndex(urlParams, key)
     const value = params[key]
@@ -51,7 +61,7 @@ const toggleParams = (urlParams, urlParamsNext, params) => {
   })
 }
 
-export const getUrlParams = (url) => {
+export function getUrlParams (url) {
   const decodedUrl = decodeURI(url)
   const queryStart = findQueryStart(decodedUrl)
   const urlParamPairs = queryStart === -1 ? [] : decodedUrl.substr(queryStart + 1).split('&')
@@ -61,7 +71,7 @@ export const getUrlParams = (url) => {
   })
 }
 
-export const resolveUrlParams = (prevParams, paramActions) => {
+export function resolveUrlParams (prevParams, paramActions) {
   const urlParams = prevParams.slice()
   const urlParamsNext = paramActions[URL_SET] ? mapInputToParams(paramActions[URL_SET]) : []
 
@@ -79,14 +89,15 @@ export const resolveUrlParams = (prevParams, paramActions) => {
   ]
 }
 
-export const constructUrlParams = params =>
-  params.filter(param => param.value !== undefined).map((param) => {
+export function constructUrlParams (params) {
+  return params.filter(param => param.value !== undefined).map((param) => {
     return param.value === null
       ? `${encodeURI(param.key)}`
       : `${encodeURI(param.key)}=${encodeURI(param.value)}`
   }).join('&')
+}
 
-export default (url, paramActions = {}) => {
+export function qsm (url, paramActions = {}) {
   if (!url || typeof url !== 'string') {
     return null
   }
@@ -95,3 +106,5 @@ export default (url, paramActions = {}) => {
   const strippedUrl = queryStart === -1 ? url : url.substr(0, queryStart)
   return params.length === 0 ? strippedUrl : `${strippedUrl}?${params}`
 }
+
+export default qsm
