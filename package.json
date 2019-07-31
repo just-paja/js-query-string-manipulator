@@ -28,6 +28,7 @@
     "url": "https://github.com/BerryCloud/js-query-string-manipulator/issues"
   },
   "files": [
+    "index.d.ts",
     "lib",
     "LICENSE",
     "README.md"
