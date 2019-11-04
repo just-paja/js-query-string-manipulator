@@ -35,14 +35,14 @@
   ],
   "homepage": "https://github.com/BerryCloud/js-query-string-manipulator#readme",
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "babel-eslint": "^10.0.2",
-    "babel-jest": "^24.8.0",
-    "jest": "^24.8.0",
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
     "jest-runner-standard": "0.0.13",
-    "standard": "^12.0.1"
+    "standard": "^14.3.1"
   },
   "standard": {
     "env": [
