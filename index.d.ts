@@ -8,9 +8,9 @@ interface ParamMap {
 }
 
 interface ParamActions {
-  remove: string[];
-  set: ParamMap;
-  toggle: ParamMap;
+  remove?: string[];
+  set?: ParamMap;
+  toggle?: ParamMap;
 }
 
 declare module 'query-string-manipulator' {
