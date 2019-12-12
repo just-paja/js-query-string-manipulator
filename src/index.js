@@ -31,7 +31,7 @@ function removeParams (urlParams, params) {
 }
 
 function mapInputKeyToParam (params, key) {
-  return { key, value: params[key] }
+  return { key, value: params[key], encode: true }
 }
 
 function mapInputToParams (params) {
@@ -39,7 +39,7 @@ function mapInputToParams (params) {
     .filter(key => params[key] !== undefined)
     .reduce((aggr, key) => {
       if (params[key] instanceof Array) {
-        return aggr.concat(params[key].map(value => ({ key, value })))
+        return aggr.concat(params[key].map(value => ({ key, value, encode: true })))
       }
 
       return [...aggr, mapInputKeyToParam(params, key)]
@@ -73,7 +73,7 @@ export function getUrlParams (url) {
   })
 }
 
-export function resolveUrlParams (prevParams, paramActions) {
+function resolveUrlParamsWithNotes (prevParams, paramActions) {
   const urlParams = prevParams.slice()
   const urlParamsNext = paramActions[URL_SET] ? mapInputToParams(paramActions[URL_SET]) : []
 
@@ -91,11 +91,19 @@ export function resolveUrlParams (prevParams, paramActions) {
   ]
 }
 
+export function resolveUrlParams (prevParams, paramActions) {
+  return resolveUrlParamsWithNotes(prevParams, paramActions).map(param => ({
+    key: param.key,
+    value: param.value
+  }))
+}
+
 export function constructUrlParams (params) {
   return params.map((param) => {
+    const key = param.encode ? encodeURIComponent(param.key) : param.key
     return param.value === null
-      ? `${encodeURI(param.key)}`
-      : `${encodeURI(param.key)}=${encodeURI(param.value)}`
+      ? `${key}`
+      : `${key}=${param.encode ? encodeURIComponent(param.value) : param.value}`
   }).join('&')
 }
 
@@ -103,7 +111,7 @@ export function qsm (url, paramActions = {}) {
   if (!url || typeof url !== 'string') {
     return null
   }
-  const params = constructUrlParams(resolveUrlParams(getUrlParams(url), paramActions))
+  const params = constructUrlParams(resolveUrlParamsWithNotes(getUrlParams(url), paramActions))
   const queryStart = findQueryStart(url)
   const strippedUrl = queryStart === -1 ? url : url.substr(0, queryStart)
   return params.length === 0 ? strippedUrl : `${strippedUrl}?${params}`
